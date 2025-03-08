@@ -59,10 +59,28 @@ const authService = {
 
   googleSignIn: async (token: string) => {
     try {
-      const response = await axios.post(`${API_URL}/auth/signin-google`, { token });
-      const access_token = response.data.access_token;
-      const refresh_token = response.data.refresh_token;
-      return { access_token, refresh_token };
+      const response = await axios.post(`${API_URL}/auth/signin-google`, {token});
+
+      if (!response.data || !response.data.data) {
+        throw new Error("Invalid credentials");
+      }
+      const { access_token, refresh_token } = response.data.data;
+
+      const decodedUser: DecodedToken = jwtDecode(access_token);
+
+      const user: DecodedToken = {
+        id: decodedUser.id,
+        fullname: decodedUser.fullname,
+        email: decodedUser.email,
+        role: decodedUser.role,
+        phone: decodedUser.phone || "", // Xử lý tránh undefined
+        gender: decodedUser.gender || "unknown",
+        dob: decodedUser.dob || "",
+      };
+
+      if (!decodedUser) throw new Error("Failed to decode token");
+
+      return { access_token, refresh_token, user};
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       throw error;

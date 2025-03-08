@@ -1,31 +1,16 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Event } from "@/types/event";
 
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  image: string;
-  ticketPrice: number;
-  totalTickets: number;
-  availableTickets: number;
-  eventStatus: string;
-}
+interface ListEventsProps {
+     events: Event[];
+   }
 
 
-const EventList = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+export default function EventList ({events = []}: ListEventsProps) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("/events.json")
-      .then((res) => res.json())
-      .then((data) => setEvents(data));
-  }, []);
+  console.log("Services in ServiceList:", events);
 
   return (
     <div className="container mx-auto p-4">
@@ -33,21 +18,21 @@ const EventList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
           <div
-            key={event.id}
+            key={event.event_id}
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300"
           >
-            <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
+            <img src={event.image_url} alt={event.title} className="w-full h-48 object-cover" />
             <div className="p-4">
               <h2 className="text-xl font-semibold">{event.title}</h2>
               <p className="text-gray-600">{event.description}</p>
               <p className="mt-2 text-gray-500">
-                🗓 {event.date} - 🕒 {event.time}
+                🗓 {event.start_date.toString()} - 🕒 {event.start_time}
               </p>
               <p className="text-gray-500">📍 {event.location}</p>
-              <p className="mt-2 font-bold text-green-600">💰 {event.ticketPrice.toLocaleString()}đ</p>
+              <p className="mt-2 font-bold text-green-600">💰 {event.price.toLocaleString()}đ</p>
               <button 
                 className="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition"
-                onClick={() => navigate(`/event-detail/${event.id}`)}
+                onClick={() => navigate(`/event-detail/${event.event_id}`)}
               >
                 Mua vé ngay
               </button>
@@ -58,8 +43,6 @@ const EventList = () => {
     </div>
   );
 };
-
-export default EventList;
 
 // import { useState } from "react";
 // import { Card, CardContent, CardTitle } from "@/components/ui/card";
