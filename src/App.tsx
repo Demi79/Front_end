@@ -6,14 +6,19 @@ import UserRoutes from "./routes/UserRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import Login from "./component/Auth/Login";
 import Register from "./component/Auth/Register";
-
+import Quiz from "./component/Organisms/Question";
+import ResultPage from "./component/Organisms/QuizResult";
+import {DisplayQuestion} from "./features/question";
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/> 
+          <Route path="/login" element={<Login />} />
+          <Route path="/question" element={<Quiz />} />
+          <Route path="/questionSection" element={<DisplayQuestion />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/Result" element={<ResultPage />} />
           <Route path="/*" element={<UserRoutes />} />
           <Route path="/admin/*" element={<AdminRoutes />} />
         </Routes>

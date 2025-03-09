@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../store/authStore";
 import authService from "./authService";
 
-const API_URL = "http://swd291-api.duckdns.org/api";
+const API_URL = "https://localhost:5063/api";
 
 const api = axios.create({
   baseURL: API_URL,
