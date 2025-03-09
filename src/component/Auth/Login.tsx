@@ -58,7 +58,7 @@ const Login: React.FC = () => {
       //     navigate("/event");
       //     break;
       // }
-      navigate("/event");
+      navigate("/");
 
     } catch (error: any) {
       console.error("Login error:", error.message);

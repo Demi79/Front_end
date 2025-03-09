@@ -14,8 +14,14 @@ const AppointmentDetail = lazy(() => import("@/component/Pages/AppointmentDetail
 const Booking = lazy(() => import("@/component/Pages/Booking"));
 const MyTickets = lazy(() => import("@/component/Pages/MyTickets"));
 const TicketDetail = lazy(() => import("@/component/Pages/TicketDetail"));
-const EventList = lazy(() => import("@/component/Pages/EventList"));
 const EventDetail = lazy(() => import("@/component/Pages/EventDetail"));
+// const DisplayEventDetail = lazy(() => 
+//      import("@/features/events").then((module) => ({
+//           default: module.DisplayEventDetail
+// })));
+const DisplayEventList = lazy(() => 
+     import("@/features/events").then((module) => ({ 
+          default: module.DisplayEventList })));
 const DisplayServiceList = lazy(() =>
      import("@/features/services").then((module) => ({
        default: module.DisplayServiceList,
@@ -41,7 +47,7 @@ const UserRoutes: React.FC = () => {
                          <Route path="/ticket" element={<MyTickets />} />
                          <Route path="/account/feedback/:bookingId" element={< FeedbackPage />} />
                          <Route path="/ticket-detail/:id" element={<TicketDetail />} />
-                         <Route path="/event" element={<EventList />} />
+                         <Route path="/event" element={<DisplayEventList />} />
                          <Route path="/event-detail/:id" element={<EventDetail />} />
                          <Route path="/testAPI" element={<DisplayServiceList />} />
                          <Route path="/payment/fail" element={<FailurePayment />} />
