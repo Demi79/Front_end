@@ -1,88 +1,78 @@
-import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import PaymentMethods from "../Molecules/Payment";
+import type { EventDetail } from "@/types/event";
+import { useParams } from "react-router-dom";
+import { useEventDetail } from "@/hooks/useEvent";
+import useCreateTicket  from "@/hooks/useTicket";
+import { Ticket } from "@/types/ticket";
 
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  image: string;
-  ticketPrice: number;
-  totalTickets: number;
-  availableTickets: number;
-  eventStatus: string;
-}
 
 export default function EventDetail() {
-  const { id } = useParams<{ id: string }>();
-  const eventId = parseInt(id as string, 10);
   const [isOpen, setIsOpen] = useState(false);
-  const [events, setEvents] = useState<Event[]>([]);
+  const { id } = useParams<{ id: string }>();
+
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
-
-    useEffect(() => {
-      fetch("/events.json")
-        .then((res) => res.json())
-        .then((data) => setEvents(data));
-    }, []);
-
-  const event = events.find((event) => event.id === id);
-  
-  if (isNaN(eventId)) {
-    // xử lý trường hợp id không phải số
-    return <div>Invalid event ID</div>;
-  }
-
-  if (!event) {
-    return <div>Event not found</div>;
-  }
-
-  const remainingPayment = event.ticketPrice;
-
+  const { eventDetail, loading, error } = useEventDetail(id);
+  console.log(id);
+  const { createTicket, ticket, error1 } = useCreateTicket();
+  const remainingPayment = eventDetail?.ticket_price;
+  console.log(eventDetail);
   const handleSelectPaymentMethod = (method: string) => {
     setSelectedPaymentMethod(method);
     console.log('Hình thức thanh toán đã được chọn');
-    console.log(selectedPaymentMethod);
 }
+const ticketData: Ticket = {
+  eventId: id,
+  price: eventDetail?.ticket_price,
+  paymentMethod: selectedPaymentMethod,
+  totalAmount: "1",
+  successCallbackUrl: "https://example.com/success",
+  failureCallbackUrl: "https://example.com/failure",
+};
+
+  const handlePayment = async () => {
+   
+    console.log(JSON.stringify(ticketData));
+    await createTicket(ticketData);
+    console.log(ticket);
+    window.location.href = ticket;
+  };
 
   return (
     <div className="p-4">
       <img
-        src={event.image}
-        alt={event.title}
+        src={eventDetail?.image}
+        alt={eventDetail?.title}
         className="w-full h-80 object-cover rounded-lg"
       />
       <div className="p-4 border-b">
-        <h1 className="text-lg font-bold">{event.title}</h1>
+        <h1 className="text-lg font-bold">{eventDetail?.title}</h1>
       </div>
       <div className="p-4">
-        <p className="text-lg font-semibold">{event.date}</p>
-        <p className="text-gray-500">{event.location}</p>
-        <p className="mt-4">{event.description}</p>
+        <p className="text-lg font-semibold">{eventDetail?.date}</p>
+        <p className="text-gray-500">{eventDetail?.location}</p>
+        <p className="mt-4">{eventDetail?.content}</p>
         <div className="mt-4">
           <p>
-            <strong>Total Tickets:</strong> {event.totalTickets}
+            <strong>Total Tickets:</strong> {eventDetail?.total_ticket_amount}
           </p>
           <p>
-            <strong>Available Tickets:</strong> {event.availableTickets}
+            <strong>Available Tickets:</strong> {eventDetail?.available_ticket}
           </p>
           <p>
-            <strong>Ticket Price:</strong> ${event.ticketPrice}
+            <strong>Ticket Price:</strong> ${eventDetail?.ticket_price}
           </p>
           <p>
-            <strong>Event Status:</strong> {event.eventStatus}
+            <strong>Event Status:</strong> {eventDetail?.event_status}
           </p>
         </div>
         <div className="mt-4 border-t pt-4">
           <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <strong>Còn cần thanh toán:</strong>
             <span className="text-lg font-bold text-emerald-700">
-              {remainingPayment.toLocaleString("vi-VN")} đ
+              {remainingPayment} đ
             </span>
           </div>
           <motion.div
@@ -94,11 +84,11 @@ export default function EventDetail() {
             <div className="mt-2 p-4 bg-gray-100 rounded-lg shadow-inner">
               <p className="flex justify-between">
                 <span>Giá vé:</span>
-                <span>{event.ticketPrice.toLocaleString("vi-VN")} đ</span>
+                <span>{eventDetail?.ticket_price}đ</span>
               </p>
               <p className="flex justify-between text-emerald-700 font-bold border-t pt-2 mt-2">
                 <span>Cần thanh toán:</span>
-                <span>{remainingPayment.toLocaleString("vi-VN")} đ</span>
+                <span>{remainingPayment} đ</span>
               </p>
             </div>
           </motion.div>
@@ -113,7 +103,7 @@ export default function EventDetail() {
                          <Button variant="secondary" className="text-emerald-700" onClick={() => window.history.back()}>
                               Hủy
                          </Button>
-                         <Button className="bg-emerald-700">
+                         <Button onClick={handlePayment} className="bg-emerald-700">
                               Thanh Toán
                          </Button>
                     </div>

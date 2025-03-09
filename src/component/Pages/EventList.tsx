@@ -1,5 +1,3 @@
-
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Event } from "@/types/event";
 
@@ -10,7 +8,7 @@ interface ListEventsProps {
 
 export default function EventList ({events = []}: ListEventsProps) {
   const navigate = useNavigate();
-  console.log("Services in ServiceList:", events);
+  console.log("Events in EList:", events);
 
   return (
     <div className="container mx-auto p-4">

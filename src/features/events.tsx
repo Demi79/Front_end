@@ -1,3 +1,4 @@
+import EventDetail from "@/component/Pages/EventDetail";
 import EventList from "@/component/Pages/EventList";
 import { useEvent, useEventDetail } from "@/hooks/useEvent";
 import { useParams } from "react-router-dom";
@@ -10,22 +11,18 @@ export const DisplayEventList = () => {
      if (error) {
      return <h1>{error}</h1>;
      }
-     return <EventList events={events} />;
+     return <EventList events={events}/>;
 
 };
 
-export const DisplayEventDetail = () => {
-    const { eventId } = useParams();
-    if (!eventId) {
-        // handle the case where eventId is undefined
-        return <h1>Event ID is not provided</h1>;
-      }
-    console.log(eventId)
-    const { event, loading, error } = useEventDetail(eventId);
-  
-    if (loading) return <h1>Loading...</h1>;
-    if (error) return <h1>{error}</h1>;
+// export const DisplayEventDetail = ({ id }: { id: string }) => {
+//     const { eventDetail, loading, error } = useEventDetail(id);
+//     if (!eventDetail) {
+//       return <h1>Loading event details...</h1>;
+//     }
+//     if (loading) return <h1>Loading...</h1>;
+//     if (error) return <h1>{error}</h1>;
   
   
-    return <EventDetail service={event} />;
-  };
+//     return <EventDetail eventDetail={eventDetail} />;
+//   };

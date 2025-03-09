@@ -13,11 +13,10 @@ export const eventService = {
           }
      },
 
-        // testcommitdane
-    //  getService : async (id: string) => {
-    //       const response = await axiosInstance.get(`${API_URL}/${id}`);
-    //       return response.data;
-    //  },
+     getEvent : async (id: string) => {
+          const response = await axiosInstance.get(`${API_URL}/${id}`);
+          return response.data;
+     },
     //  createService : async (service: Service) => {
     //       const response = await axiosInstance.post(`${API_URL}`, service);
     //       return response.data;
