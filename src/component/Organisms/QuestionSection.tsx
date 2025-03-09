@@ -16,6 +16,7 @@ export default function QuizQuestion({ questions }: ListQuestionProps): JSX.Elem
   const [userAnswers, setUserAnswers] = useState<string[]>(new Array(questions.length).fill(""));
   const [userId, setUserId] = useState<string | null>(null);
   const navigate  = useNavigate();
+  console.log("Current question:", questions);
   useEffect(() => {
     // Lấy userId từ localStorage
     const storedUser = localStorage.getItem("user");

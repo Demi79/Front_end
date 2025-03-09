@@ -10,7 +10,7 @@ export const useQuestion = () => {
      const fetchQuestions = async () => {
           try {
                const data = await questionService.getListQuestions();
-               setQuestions(data);
+               setQuestions(data.data);
           } catch (error) {
                setError("failed to fetch questions");
           } finally {

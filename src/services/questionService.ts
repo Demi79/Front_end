@@ -14,7 +14,7 @@ export const questionService = {
                const response = await axiosInstance.post(RECOMMENDATION_API_URL, 
                     Qdata
                );
-               return response.data;
+               return response.data.data;
           } catch (error) {
                console.error("Error sending question recommendations:", error);
                throw error;
