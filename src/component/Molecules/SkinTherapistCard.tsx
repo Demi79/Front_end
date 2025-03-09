@@ -2,12 +2,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skintherapist } from "@/types/skintherapist";
 
 interface ChildProps {
-     onButtonClick: () => void;
+    //  onButtonClick: () => void;
+     therapist: Skintherapist;
+     sendDataToParent: (id: string, disable: boolean) => void;
    }
 
-const SkinTherapistCard:React.FC<ChildProps> = ({ onButtonClick }) => {
+const SkinTherapistCard:React.FC<ChildProps> = ({therapist,sendDataToParent}) => {
+  const handleClick = (id: string, disable : boolean) => {
+      sendDataToParent(id, disable);
+  }
   return (
     <Card className="w-64 p-3 shadow-lg border rounded-lg relative">
       {/* Badge giảm giá */}
@@ -18,7 +24,7 @@ const SkinTherapistCard:React.FC<ChildProps> = ({ onButtonClick }) => {
       {/* Hình ảnh sản phẩm */}
       <div className="flex justify-center">
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTasA2pIuXSoyfPGdEt31yg6uLf8549ghjqEg&s"
+          src={therapist.avatar}
           alt="Fanola Hair Mask"
           className="w-40 h-40 object-cover rounded-tl-lg rounded-tr-lg"
         />
@@ -32,23 +38,23 @@ const SkinTherapistCard:React.FC<ChildProps> = ({ onButtonClick }) => {
         </div> */}
 
         {/* Thương hiệu */}
-        <p className="text-green-600 font-semibold mt-1">Dương Ngọc Thúy Hoa</p>
+        <p className="text-green-600 font-semibold mt-1">{therapist.name}</p>
 
         {/* Tên sản phẩm */}
         <p className="text-sm text-gray-800 mt-1 leading-tight">
-          Thạc sĩ Da liễu với hơn 10 năm kinh nghiệm
+          {therapist.about}
         </p>
 
         {/* Đánh giá */}
         <div className="flex items-center gap-1 mt-2">
           <Badge className="bg-emerald-700 text-white px-2 py-1 flex items-center gap-1">
             <Star size={14} className="fill-current text-yellow-400" />
-            4.9
+            {therapist.rating}
           </Badge>
           <span className="text-gray-500 text-sm">(18)</span>
-          <span className="text-gray-500 text-sm ml-auto">💬 104</span>
+          <span className="text-gray-500 text-sm ml-auto">{therapist.reviews.length}</span>
         </div>
-        <Button className="bg-emerald-700 mt-2 justify-center" onClick={onButtonClick}>
+        <Button className="bg-emerald-700 mt-2 justify-center" onClick={() => handleClick(therapist.id,false)}>
                 Chọn chuyên viên
               </Button>
         {/* Tiến độ bán hàng */}

@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import { Route, Routes } from 'react-router-dom';
 import Layout from '@/component/Templates/Layout';
+import FailurePayment from "@/component/Pages/FailurePayment";
+import SuccessPayment from "@/component/Pages/SuccessPayment";
 const ServiceDetail = lazy(() => import("@/component/Pages/ServiceDetail"));
 const ServiceList = lazy(() => import("@/component/Pages/ServiceList"));
 const Appointment = lazy(() => import("@/component/Pages/Appointment"));
@@ -33,6 +35,8 @@ const UserRoutes: React.FC = () => {
                          <Route path="/event" element={<EventList />} />
                          <Route path="/event-detail/:id" element={<EventDetail />} />
                          <Route path="/testAPI" element={<DisplayServiceList />} />
+                         <Route path="/payment/fail" element={<FailurePayment />} />
+                         <Route path="/payment/success" element={<SuccessPayment />} />
                     </Routes>
                </Suspense>
           </Layout >
