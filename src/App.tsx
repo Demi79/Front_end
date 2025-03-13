@@ -8,6 +8,9 @@ import ResultPage from "./component/Organisms/QuizResult";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {DisplayQuestion} from "./features/question";
+import StaffRoutes from "./routes/StaffRoutes";
+import SkinTherapistRoutes from "./routes/SkinTherapistRoutes";
+import AdminSystemRoutes from "./routes/SystemAdminRoutes";
 const App = () => {
   return ( 
     <>
@@ -31,7 +34,10 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/Result" element={<ResultPage />} />
           <Route path="/*" element={<UserRoutes />} />
-          <Route path="/admin/*" element={<AdminRoutes />} />
+          <Route path="/manager/*" element={<AdminRoutes />} />
+          <Route path="/staff/*" element={<StaffRoutes />} />
+          <Route path="/therapist/*" element={<SkinTherapistRoutes />} />
+          <Route path="/admin/*" element={<AdminSystemRoutes />} />
         </Routes>
       </Router>
 
