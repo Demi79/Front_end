@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import {Question, QuestionResponse, QuestionRecommendation } from "../../types/question"
 
+
 // Sample data
 //call api thay cho cai Question nay nha, vao ../../types/question se co dinh nghia cho may nay
 const sampleQuestions: Question[] = [

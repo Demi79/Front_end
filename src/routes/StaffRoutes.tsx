@@ -6,7 +6,6 @@ import Page from '@/component/Templates/Admin/page';
 import CalendarApp from "@/component/Pages/Staff/Calendar";
 import QuizManagement from "@/component/Question/QuizManagement";
 
-
 const isStaff = true;
 const StaffRoutes: React.FC = () => {
     //  return isStaff ? (
